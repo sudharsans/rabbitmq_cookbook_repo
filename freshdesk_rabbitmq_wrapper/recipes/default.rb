@@ -8,39 +8,47 @@
 #
 
 # Add all rabbitmq nodes to the hosts file with their short name.
-=begin
-instances = node[:opsworks][:layers][:rabbitmq][:instances]
-
-instances.each do |name, attrs|
-  hostsfile_entry attrs['private_ip'] do
-    hostname  name
-    unique    true
-  end
-end
-
-rabbit_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
-node.set['rabbitmq']['cluster_disk_nodes'] = rabbit_nodes
-=end
-
 include_recipe 'rabbitmq'
 
-=begin
+template node['rabbitmq']['erlang_cookie_path'] do
+     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately 
+     source 'doterlang.cookie.erb'
+     owner 'rabbitmq'
+     group 'rabbitmq'
+     mode 00400
+     notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
+     notifies :run, "execute[reset-node]", :immediately
+   end
+
+template "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
+  source 'rabbitmq.config.erb'
+  owner 'root'
+  group 'root'
+  mode 00644
+  notifies :restart, "service[rabbitmq-server]"
+end
+
 rabbitmq_plugin "rabbitmq_management" do
   action :enable
+  notifies :restart, "service[rabbitmq-server]" 
 end
 
 rabbitmq_user "guest" do
   action :delete
 end
 
-rabbitmq_user node['rabbitmq_cluster']['user'] do
-  password node['rabbitmq_cluster']['password']
+rabbitmq_user "freshdesk" do
+  password "freshdesk"
   action :add
 end
 
-rabbitmq_user node['rabbitmq_cluster']['user'] do
+rabbitmq_user "freshdesk" do
   vhost "/"
   permissions ".* .* .*"
   action :set_permissions
 end
-=end
+
+rabbitmq_user "freshdesk" do
+  tag "administrator"
+  action :set_tags
+end
