@@ -24,6 +24,7 @@ node.set['rabbitmq']['cluster_disk_nodes'] = rabbit_nodes
 
 include_recipe 'rabbitmq'
 
+=begin
 rabbitmq_plugin "rabbitmq_management" do
   action :enable
 end
@@ -42,3 +43,4 @@ rabbitmq_user node['rabbitmq_cluster']['user'] do
   permissions ".* .* .*"
   action :set_permissions
 end
+=end
