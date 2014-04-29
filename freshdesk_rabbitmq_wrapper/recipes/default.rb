@@ -8,6 +8,7 @@
 #
 
 # Add all rabbitmq nodes to the hosts file with their short name.
+=begin
 instances = node[:opsworks][:layers][:rabbitmq][:instances]
 
 instances.each do |name, attrs|
@@ -19,6 +20,7 @@ end
 
 rabbit_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
 node.set['rabbitmq']['cluster_disk_nodes'] = rabbit_nodes
+=end
 
 include_recipe 'rabbitmq'
 
