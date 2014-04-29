@@ -10,7 +10,7 @@
 # Add all rabbitmq nodes to the hosts file with their short name.
 include_recipe 'rabbitmq'
 
-"stop rabbitmq before change erlang_cookie" do
+ruby_block "stop rabbitmq before change erlang_cookie" do
     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
  end
 
