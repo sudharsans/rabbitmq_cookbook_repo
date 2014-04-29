@@ -10,8 +10,11 @@
 # Add all rabbitmq nodes to the hosts file with their short name.
 include_recipe 'rabbitmq'
 
+"stop rabbitmq before change erlang_cookie" do
+    notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
+ end
+
 template node['rabbitmq']['erlang_cookie_path'] do
-     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately 
      source 'doterlang.cookie.erb'
      owner 'rabbitmq'
      group 'rabbitmq'
