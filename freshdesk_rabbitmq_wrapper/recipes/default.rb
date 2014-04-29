@@ -11,8 +11,10 @@
 include_recipe 'rabbitmq'
 
 ruby_block "stop rabbitmq before change erlang_cookie" do
+   block do	
     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
- end
+   end
+end
 
 template node['rabbitmq']['erlang_cookie_path'] do
      source 'doterlang.cookie.erb'
