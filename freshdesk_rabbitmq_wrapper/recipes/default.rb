@@ -14,6 +14,7 @@ ruby_block "stop rabbitmq before change erlang_cookie" do
    block do	
     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
    end
+   action :nothing
 end
 
 template node['rabbitmq']['erlang_cookie_path'] do
