@@ -17,8 +17,8 @@ template node['rabbitmq']['erlang_cookie_path'] do
      group 'rabbitmq'
      mode 00400
      notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
-     notifies :run, "execute[reset-node]", :immediately
-   end
+     notifies :restart, "service[rabbitmq-server]"   
+end
 
 template "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
   source 'rabbitmq.config.erb'
