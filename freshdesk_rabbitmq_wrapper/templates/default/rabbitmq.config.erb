@@ -17,10 +17,10 @@
   ]}, 
   {rabbit, [
   {tcp_listeners, [<%= node['rabbitmq']['tcp_listener_custom']%>]},
-#<% if node['rabbitmq']['cluster'] && node['rabbitmq']['cluster_disk_nodes'] -%>
+%%% <% if node['rabbitmq']['cluster'] && node['rabbitmq']['cluster_disk_nodes'] -%>
     {cluster_nodes, [<%= node['rabbitmq']['cluster_disk_nodes'].map{|n| "\'#{n}\'"}.join(',') %>]},
     {cluster_partition_handling,<%= node['rabbitmq']['cluster_partition_handling'] %>},
-#<% end %>
+%% %<% end %>
 <% if node['rabbitmq']['ssl'] -%>
     {ssl_listeners, [<%= node['rabbitmq']['ssl_port'] %>]},
     {ssl_options, [{cacertfile,"<%= node['rabbitmq']['ssl_cacert'] %>"},
