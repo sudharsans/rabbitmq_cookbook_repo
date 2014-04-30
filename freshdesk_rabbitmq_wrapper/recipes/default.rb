@@ -15,7 +15,6 @@ ruby_block "stop rabbitmq before change erlang_cookie" do
    block do	
     notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
    end
-   action :run
 end
 
 directory "/var/lib/rabbitmq/mnesia" do
