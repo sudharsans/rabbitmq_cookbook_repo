@@ -10,11 +10,10 @@
 # Add all rabbitmq nodes to the hosts file with their short name.
 include_recipe 'rabbitmq'
 
-
 ruby_block "stop rabbitmq before change erlang_cookie" do
-   block do	 
-   end
-  notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately 
+  block do	 
+  end
+  otifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately 
 end
 
 directory "/var/lib/rabbitmq/mnesia" do
@@ -23,12 +22,12 @@ directory "/var/lib/rabbitmq/mnesia" do
 end
 
 template node['rabbitmq']['erlang_cookie_path'] do
-     source 'doterlang.cookie.erb'
-     owner 'rabbitmq'
-     group 'rabbitmq'
-     mode 00400
-     notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
-     notifies :restart, "service[rabbitmq-server]"   
+  source 'doterlang.cookie.erb'
+  owner 'rabbitmq'
+  group 'rabbitmq'
+  mode 00400
+  notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
+  notifies :restart, "service[rabbitmq-server]"   
 end
 
 template "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
@@ -48,18 +47,18 @@ rabbitmq_user "guest" do
   action :delete
 end
 
-rabbitmq_user "freshdesk" do
-  password "freshdesk"
+rabbitmq_user node['rabbitmq']['user'] do
+  password node['rabbitmq']['password']
   action :add
 end
 
-rabbitmq_user "freshdesk" do
+rabbitmq_user node['rabbitmq']['user'] do
   vhost "/"
   permissions ".* .* .*"
   action :set_permissions
 end
 
-rabbitmq_user "freshdesk" do
+rabbitmq_user node['rabbitmq']['user'] do
   tag "administrator"
   action :set_tags
 end
