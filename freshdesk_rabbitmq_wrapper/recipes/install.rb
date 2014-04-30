@@ -10,11 +10,6 @@
 # Add all rabbitmq nodes to the hosts file with their short name.
 include_recipe 'rabbitmq::default'
 
-rabbitmq_plugin "rabbitmq_management" do
-  action :enable
-  notifies :restart, "service[rabbitmq-server]", :immediately 
-end
-
 include_recipe 'freshdesk_rabbitmq_wrapper::user'
-
+include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
 

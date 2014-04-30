@@ -1,5 +1,3 @@
-include_recipe 'rabbitmq::user_management'
- 
 
 rabbitmq_user "guest" do
   action :delete
