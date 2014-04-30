@@ -12,9 +12,9 @@ include_recipe 'rabbitmq'
 
 
 ruby_block "stop rabbitmq before change erlang_cookie" do
-   block do	
-    notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
+   block do	 
    end
+  notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately 
 end
 
 directory "/var/lib/rabbitmq/mnesia" do
