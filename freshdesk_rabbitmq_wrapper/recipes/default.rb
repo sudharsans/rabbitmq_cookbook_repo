@@ -35,12 +35,18 @@ template "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
   owner 'root'
   group 'root'
   mode 00644
-  notifies :restart, "service[rabbitmq-server]"
+  notifies :restart, "service[rabbitmq-server]", :immediately
+end
+
+# Need to reset for clustering #
+execute 'reset-node' do
+  command 'rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl start_app'
+  action :run 
 end
 
 rabbitmq_plugin "rabbitmq_management" do
   action :enable
-  notifies :restart, "service[rabbitmq-server]" 
+  notifies :restart, "service[rabbitmq-server]", :immediately 
 end
 
 rabbitmq_user "guest" do
