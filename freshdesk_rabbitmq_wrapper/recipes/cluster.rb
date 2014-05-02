@@ -9,11 +9,11 @@ directory "/var/lib/rabbitmq/mnesia" do
   action :delete
 end
 
-file "/usr/lib/rabbitmq/.erlang.cookie" do
+file node['rabbitmq']['erlang_cookie_path'] do
    action :delete
 end
 
-template "/usr/lib/rabbitmq/.erlang.cookie" do
+template node['rabbitmq']['erlang_cookie_path'] do
   source 'doterlang.cookie.erb'
   owner 'rabbitmq'
   group 'rabbitmq'
@@ -21,6 +21,14 @@ template "/usr/lib/rabbitmq/.erlang.cookie" do
   action :create
   notifies :start, "service[rabbitmq-server]", :immediately 
   notifies :restart, "service[rabbitmq-server]", :immediately
+end
+
+template "/var/lib/rabbitmq/.erlang.cookie.1" do
+  source 'doterlang.cookie.erb'
+  owner 'rabbitmq'
+  group 'rabbitmq'
+  mode 0040
+  action :create
 end
 
 service "rabbitmq-server" do

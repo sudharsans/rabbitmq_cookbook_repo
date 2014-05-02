@@ -5,7 +5,7 @@ default['rabbitmq']['web_console_ssl_port'] = "8080"
 default['rabbitmq']['tcp_listener_custom']= "9999"
 
 # clustering
-default['rabbitmq']['erlang_cookie'] = 'FRRKIUIZPNNCHNITHOSB'
+default['rabbitmq']['erlang_cookie'] = 'MYNAMEISSUDHARSANSIVSANKARAN'
 
 #get all instances from layers rabbit
 instances = node[:opsworks][:layers][:rabbitmq][:instances]
