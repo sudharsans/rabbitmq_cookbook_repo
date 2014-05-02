@@ -18,7 +18,7 @@ rabbit_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
 node.set['rabbitmq']['cluster'] = true
 node.set['rabbitmq']['cluster_disk_nodes'] = rabbit_nodes
 node.set['rabbitmq']['erlang_cookie'] = 'AnyAlphaNumericStringWillDo'
-node.set['rabbitmq']['enabled_plugins'] = ['rabbitmq_managment']
+node.set['rabbitmq']['enabled_plugins'] = ['rabbitmq_management']
 
 include_recipe 'rabbitmq::default'
 
