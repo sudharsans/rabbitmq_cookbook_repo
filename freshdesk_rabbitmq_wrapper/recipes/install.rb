@@ -22,5 +22,11 @@ rewind :template => "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
   cookbook_name "freshdesk_rabbitmq_wrapper"
 end
 
+rewind :template => node['rabbitmq']['erlang_cookie_path'] do
+  source "doterlang.cookie.erb"
+  cookbook_name "freshdesk_rabbitmq_wrapper"
+end
+
+
 include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
 include_recipe 'freshdesk_rabbitmq_wrapper::user'
