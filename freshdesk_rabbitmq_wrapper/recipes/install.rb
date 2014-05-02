@@ -34,7 +34,7 @@ template "/usr/lib/rabbitmq/.erlang.cookie" do
   source 'doterlang.cookie.erb'
   owner 'rabbitmq'
   group 'rabbitmq'
-  mode 0040
+  mode "0400"
   action :create
   notifies :start, "service[rabbitmq-server]", :immediately 
   notifies :restart, "service[rabbitmq-server]", :immediately
