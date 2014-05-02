@@ -11,17 +11,16 @@
 
 # see https://github.com/opscode-cookbooks/rabbitmq/blob/master/attributes/default.rb for more attributes.
 
-#get all instances from layers rabbit
-instances = node[:opsworks][:layers][:rabbitmq][:instances]
-rabbit_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
-
-node.set['rabbitmq']['cluster'] = true
-node.set['rabbitmq']['cluster_disk_nodes'] = rabbit_nodes
-node.set['rabbitmq']['erlang_cookie'] = 'AnyAlphaNumericStringWillDo'
 node.set['rabbitmq']['enabled_plugins'] = ['rabbitmq_management']
 
+chef_gem "chef-rewind"
+require 'chef/rewind'
+
 include_recipe 'rabbitmq::default'
+rewind :template => "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
+  source "rabbitmq.config.erb"
+  cookbook_name "freshdesk_rabbitmq_wrapper"
+end
 
+include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
 include_recipe 'freshdesk_rabbitmq_wrapper::user'
-#include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
-
