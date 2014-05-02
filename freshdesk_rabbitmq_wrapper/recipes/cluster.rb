@@ -23,29 +23,6 @@ template "/usr/lib/rabbitmq/.erlang.cookie" do
   notifies :restart, "service[rabbitmq-server]", :immediately
 end
 
-template "/etc/rabbitmq/rabbitmq.config" do
-  source 'rabbitmq.config.erb'
-  owner 'root'
-  group 'root'
-  mode 00644
- #notifies :stop, "service[rabbitmq-server]", :immediately
-  notifies :restart, "service[rabbitmq-server]", :immediately
-  sleep 130 
-end
-
-# Need to reset for clustering #
-execute 'reset-node' do
-  command 'rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl start_app'
-  action :run 
-end
-
-include_recipe 'freshdesk_rabbitmq_wrapper::user'
-
-rabbitmq_plugin "rabbitmq_management" do
-  action :enable
-  notifies :restart, "service[rabbitmq-server]", :immediately 
-end
-
 service "rabbitmq-server" do
       start_command 'setsid /etc/init.d/rabbitmq-server start'
       stop_command 'setsid /etc/init.d/rabbitmq-server stop'
