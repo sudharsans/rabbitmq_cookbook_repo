@@ -29,6 +29,9 @@ end
 #  action :run 
 #end
 
+include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
+include_recipe 'freshdesk_rabbitmq_wrapper::user'
+
 service "rabbitmq-server" do
       start_command 'setsid /etc/init.d/rabbitmq-server start'
       stop_command 'setsid /etc/init.d/rabbitmq-server stop'

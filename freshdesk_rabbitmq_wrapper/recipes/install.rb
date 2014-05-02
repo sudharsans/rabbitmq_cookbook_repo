@@ -42,3 +42,10 @@ end
 
 include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
 include_recipe 'freshdesk_rabbitmq_wrapper::user'
+
+rabbitmq_policy "ha-all" do
+  pattern ""
+  params "ha-mode"=>"all"
+  priority 1
+  action :set
+end
