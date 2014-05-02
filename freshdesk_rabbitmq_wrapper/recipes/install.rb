@@ -6,13 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
-# Add all rabbitmq nodes to the hosts file with their short name.
-
-# see https://github.com/opscode-cookbooks/rabbitmq/blob/master/attributes/default.rb for more attributes.
-
-node.set['rabbitmq']['enabled_plugins'] = ['rabbitmq_management']
-
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
@@ -26,6 +19,11 @@ ruby_block "stop rabbitmq for changing erlang_cookie" do
   block do    
   end 
   notifies :stop, "service[rabbitmq-server]", :immediately 
+end
+
+directory "/var/lib/rabbitmq/mnesia" do
+  recursive true
+  action :delete
 end
 
 file "/usr/lib/rabbitmq/.erlang.cookie" do
