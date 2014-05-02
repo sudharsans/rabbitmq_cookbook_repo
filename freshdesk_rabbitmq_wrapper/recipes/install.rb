@@ -22,11 +22,25 @@ rewind :template => "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
   cookbook_name "freshdesk_rabbitmq_wrapper"
 end
 
-rewind :template => node['rabbitmq']['erlang_cookie_path'] do
-  source "doterlang.cookie.erb"
-  cookbook_name "freshdesk_rabbitmq_wrapper"
+ruby_block "stop rabbitmq for changing erlang_cookie" do
+  block do    
+  end 
+  notifies :stop, "service[rabbitmq-server]", :immediately 
 end
 
+file "/usr/lib/rabbitmq/.erlang.cookie" do
+   action :delete
+end
+
+template "/usr/lib/rabbitmq/.erlang.cookie" do
+  source 'doterlang.cookie.erb'
+  owner 'rabbitmq'
+  group 'rabbitmq'
+  mode 0040
+  action :create
+  notifies :start, "service[rabbitmq-server]", :immediately 
+  notifies :restart, "service[rabbitmq-server]", :immediately
+end
 
 include_recipe 'freshdesk_rabbitmq_wrapper::plugin'
 include_recipe 'freshdesk_rabbitmq_wrapper::user'
