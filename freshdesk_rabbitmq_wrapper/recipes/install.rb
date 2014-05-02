@@ -12,7 +12,7 @@
 # see https://github.com/opscode-cookbooks/rabbitmq/blob/master/attributes/default.rb for more attributes.
 
 #get all instances from layers rabbit
-instances = node[:opsworks][:layers][:rabbit][:instances]
+instances = node[:opsworks][:layers][:rabbitmq][:instances]
 rabbit_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
 
 node.set['rabbitmq']['cluster'] = true
