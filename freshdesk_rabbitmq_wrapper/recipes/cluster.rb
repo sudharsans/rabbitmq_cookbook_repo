@@ -19,16 +19,14 @@ template node['rabbitmq']['erlang_cookie_path'] do
   group 'rabbitmq'
   mode 0040
   action :create
-  notifies :start, "service[rabbitmq-server]", :immediately 
-  notifies :restart, "service[rabbitmq-server]", :immediately
+#  notifies :start, "service[rabbitmq-server]", :immediately 
+#  notifies :restart, "service[rabbitmq-server]", :immediately
 end
 
-template "/var/lib/rabbitmq/.erlang.cookie.1" do
-  source 'doterlang.cookie.erb'
-  owner 'rabbitmq'
-  group 'rabbitmq'
-  mode 0040
-  action :create
+# Need to reset for clustering #
+execute 'restart' do
+  command 'rabbitmq-server -detached '
+  action :run 
 end
 
 service "rabbitmq-server" do
