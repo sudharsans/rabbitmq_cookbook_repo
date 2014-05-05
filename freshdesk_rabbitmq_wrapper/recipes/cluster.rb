@@ -25,7 +25,7 @@ end
 
 # Need to reset for clustering #
 #execute 'restart' do
-#  command 'rabbitmq-server -detached '
+#  command 'rabbitmq-server -detached'
 #  action :run 
 #end
 
