@@ -1,6 +1,6 @@
 
 #take first node in the rabbitmq layer as the master node
-def get_master_cmd()
+def get_master_node()
   require 'socket'
   instances = node[:opsworks][:layers][:rabbitmq][:instances]
   hostname= Socket.gethostname
