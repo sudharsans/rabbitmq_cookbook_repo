@@ -10,7 +10,7 @@ def get_master_cmd()
       Chef::Log.info "This is a considered as a master node, Existing cluster setup"
       exit 0
     else
-       "rabbitmqctl join_cluster #{master_node}"
+       return master_node
     end
 end
 
