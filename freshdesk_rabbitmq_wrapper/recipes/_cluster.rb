@@ -4,11 +4,11 @@ def get_master_node
   require 'socket'
   instances = node[:opsworks][:layers][:rabbitmq][:instances]
   hostname= Socket.gethostname
-  master_node="rabbitmq1"
+  Chef::Log.info instances 
+  master_node=instances[0]
 
   if master_node == hostname
-      Chef::Log.info "This is a considered as a master node, Existing cluster setup"
-      exit 0
+      raise "This is a considered as a master node, Existing cluster setup"
     else
       return  master_node
     end
