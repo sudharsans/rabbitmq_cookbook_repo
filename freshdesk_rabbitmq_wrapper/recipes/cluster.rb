@@ -1,7 +1,7 @@
 ruby_block "stop rabbitmq before change erlang_cookie" do
   block do	 
   end
-  notifies :stop, "service[rabbitmq]", :immediately 
+  notifies :stop, "service[rabbitmq-server]", :immediately 
 end
 
 directory "/var/lib/rabbitmq/mnesia" do
@@ -19,11 +19,11 @@ template node['rabbitmq']['erlang_cookie_path'] do
   group 'rabbitmq'
   mode "0400"
   action :create
-  notifies :start, "service[rabbitmq]", :immediately 
-  notifies :restart, "service[rabbitmq]", :immediately
+  notifies :start, "service[rabbitmq-server]", :immediately 
+  notifies :restart, "service[rabbitmq-server]", :immediately
 end
 
-service "rabbitmq" do
+service "rabbitmq-server" do
       start_command 'setsid /etc/init.d/rabbitmq-server start'
       stop_command 'setsid /etc/init.d/rabbitmq-server stop'
       restart_command 'setsid /etc/init.d/rabbitmq-server restart'
