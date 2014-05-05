@@ -6,7 +6,7 @@
 <%= @kernel %> 
   ]},
   {rabbitmq_management, [
-  {listener, [{port,<%= node['rabbitmq']['web_console_ssl_port'] %>}
+  {listener, [{port,<%= node['rabbitmq']['web_console_port'] %>}
 <% if node['rabbitmq']['web_console_ssl'] -%>
                 {ssl, true},
                 {ssl_opts, [{cacertfile,"<%= node['rabbitmq']['ssl_cacert'] %>"},

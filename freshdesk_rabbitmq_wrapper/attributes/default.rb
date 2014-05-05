@@ -1,7 +1,7 @@
 # see https://github.com/opscode-cookbooks/rabbitmq/blob/master/attributes/default.rb for more attributes.
 
 #networking
-default['rabbitmq']['web_console_ssl_port'] = "8080"  
+default['rabbitmq']['web_console_port'] = "8080"  
 default['rabbitmq']['tcp_listener_custom']= "9999"
 
 # clustering
