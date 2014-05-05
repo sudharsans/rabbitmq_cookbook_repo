@@ -19,11 +19,16 @@ directory "/var/lib/rabbitmq/mnesia" do
   action :delete
 end
 
+file node['rabbitmq']['erlang_cookie_path'] do
+   action :delete
+end
+
 template node['rabbitmq']['erlang_cookie_path'] do
   source 'doterlang.cookie.erb'
   owner 'rabbitmq'
   group 'rabbitmq'
   mode 00400
+  action :create 
   notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
   notifies :restart, "service[rabbitmq-server]"   
 end
