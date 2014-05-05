@@ -1,6 +1,6 @@
 
 #take first node in the rabbitmq layer as the master node
-def cluster_cmd()
+def get_master_cmd()
   require 'socket'
   instances = node[:opsworks][:layers][:rabbitmq][:instances]
   hostname= Socket.gethostname
@@ -14,8 +14,11 @@ def cluster_cmd()
     end
 end
 
+master=get_master_node()
+cluster_cmd="rabbitmqctl join_cluster #{master}"
+
 # Need to reset for clustering
 execute 'cluster' do
-  command "rabbitmqctl stop_app &&  #{cluster_cmd()} && rabbitmqctl start_app"
+  command "rabbitmqctl stop_app &&  #{cluster_cmd} && rabbitmqctl start_app"
   action :run 
 end
