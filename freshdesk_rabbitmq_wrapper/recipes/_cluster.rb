@@ -16,6 +16,6 @@ end
 
 # Need to reset for clustering
 execute 'cluster' do
-  command 'rabbitmqctl stop_app &&  #{cluster_cmd} && rabbitmqctl start_app'
+  command 'rabbitmqctl stop_app &&  #{cluster_cmd()} && rabbitmqctl start_app'
   action :run 
 end
