@@ -19,10 +19,11 @@ template node['rabbitmq']['erlang_cookie_path'] do
   group 'rabbitmq'
   mode "0400"
   action :create
-  notifies :start, "service[rabbitmq-server]", :immediately 
-  notifies :restart, "service[rabbitmq-server]", :immediately
+  #notifies :start, "service[rabbitmq-server]", :immediately 
+  #notifies :restart, "service[rabbitmq-server]", :immediately
 end
 
+=begin
 service "rabbitmq-server" do
       start_command 'setsid /etc/init.d/rabbitmq-server start'
       stop_command 'setsid /etc/init.d/rabbitmq-server stop'
@@ -31,3 +32,4 @@ service "rabbitmq-server" do
       supports :status => true, :restart => true
       action [:enable, :start]
 end
+=end
