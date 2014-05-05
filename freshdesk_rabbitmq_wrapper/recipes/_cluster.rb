@@ -1,6 +1,6 @@
 
 #take first node in the rabbitmq layer as the master node
-def get_master_node()
+def get_master_node
   require 'socket'
   instances = node[:opsworks][:layers][:rabbitmq][:instances]
   hostname= Socket.gethostname
@@ -10,12 +10,12 @@ def get_master_node()
       Chef::Log.info "This is a considered as a master node, Existing cluster setup"
       exit 0
     else
-       return master_node
+      return  master_node
     end
 end
 
-master=get_master_node()
-cluster_cmd="rabbitmqctl join_cluster #{master}"
+master=get_master_node
+cluster_cmd="rabbitmqctl join_cluster rabbit@#{master}"
 
 # Need to reset for clustering
 execute 'cluster' do
