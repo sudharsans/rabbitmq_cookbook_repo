@@ -31,3 +31,11 @@ service "rabbitmq-server" do
       supports :status => true, :restart => true
       action [:enable, :start]
 end
+
+#high availability policy
+rabbitmq_policy "ha-all" do
+  pattern ""
+  params "ha-mode"=>"all"
+  priority 1
+  action :set
+end
