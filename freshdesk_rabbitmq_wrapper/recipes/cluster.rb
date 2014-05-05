@@ -23,11 +23,12 @@ template node['rabbitmq']['erlang_cookie_path'] do
   notifies :restart, "service[rabbitmq-server]", :immediately
 end
 
+=begin
 # Need to reset for clustering #
-#execute 'restart' do
-#  command 'rabbitmq-server -detached'
-#  action :run 
-#end
+execute 'restart' do
+  command 'rabbitmq-server -detached'
+  action :run 
+end
 
 service "rabbitmq-server" do
       start_command 'setsid /etc/init.d/rabbitmq-server start'
@@ -37,3 +38,4 @@ service "rabbitmq-server" do
       supports :status => true, :restart => true
       action [:enable, :start]
 end
+=end
