@@ -3,8 +3,15 @@ require 'chef/rewind'
 
 include_recipe 'rabbitmq::default'
 rewind :template => "#{node['rabbitmq']['config_root']}/rabbitmq.config" do
-  source "rabbitmq.config.erb"
+  source 'rabbitmq.config.erb'
   cookbook_name "freshdesk_rabbitmq_wrapper"
+  owner 'root'
+  group 'root'
+  mode 00644
+  variables(
+    :kernel => format_kernel_parameters
+    )
+  notifies :restart, "service[#{node['rabbitmq']['service_name']}]", :immediately
 end
 
 #place same cookie on all nodes
